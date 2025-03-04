@@ -5,6 +5,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 public class Util {
@@ -43,4 +46,17 @@ public class Util {
         return sessionFactory;
     }
 
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+    }
+
+    public static void close(Connection connection) throws SQLException {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }
